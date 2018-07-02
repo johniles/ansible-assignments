@@ -11,9 +11,12 @@
       path: /var/lib/pgsql/data/
     register: pgdata_dir_version
 
-  - name: Ensure PostgreSQL database is initialized.
-    command: postgresql-setup initdb/initdb -D /var/lib/pgsql/data/
-    when: not pgdata_dir_version.stat.exists
+  - name: initilize postgres
+    command: postgresql-setup initdb
+
+#  - name: Ensure PostgreSQL database is initialized.
+#    command: postgresql-setup initdb/initdb -D /var/lib/pgsql/data/
+   # when: not pgdata_dir_version.stat.exists
 
   - name: start postgres
     service:
