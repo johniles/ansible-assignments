@@ -1,0 +1,25 @@
+---
+- name: configuration
+  hosts: all:!bastions
+  gather_facts: false # remove later! speeds up testing
+  become: true
+
+  pre_tasks:
+  - name: enable repos
+    template:
+      src: ./open_three-tier-app.repo
+      dest: /etc/yum.repos.d/open_three-tier-app.repo
+      mode: 0644
+  
+  - name: Run Roles
+    include_role: 
+      name : dbtier
+    when: "'appdbs' in group_names"
+   
+    include_role:
+      name: apptier
+    when: "'apps' in group_names"
+
+    include_role:
+      name: webtier
+    when: "'frontends' in group_names" 

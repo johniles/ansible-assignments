@@ -1,0 +1,6 @@
+---
+- name: haproxy_restart
+    service:
+      name: haproxy
+      state: restarted
+# handlers file for /home/john.iles-spark.co.nz/good-ansible/webtier

@@ -1,0 +1,27 @@
+---
+  - name: enable repos
+    template:
+      src: ./open_three-tier-app.repo
+      dest: /etc/yum.repos.d/open_three-tier-app.repo
+      mode: 0644
+
+  - name: install postgres
+    yum:
+      name: postgresql-server
+      state: latest
+
+  - name: Check if PostgreSQL database is initialized.
+    stat:
+      path: "{{ postgresql_data_dir }}/PG_VERSION"
+    register: pgdata_dir_version
+
+  - name: Ensure PostgreSQL database is initialized.
+    command: postgresql-setup initdb/initdb -D "{{ postgresql_data_dir }}"
+    when: not pgdata_dir_version.stat.exists
+
+  - name: initilize postgres some more
+    command: chkconfig postgresql on
+  - name: start postgres
+    service:
+      name: postgresql.service
+      state: started
