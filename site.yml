@@ -11,15 +11,17 @@
       dest: /etc/yum.repos.d/open_three-tier-app.repo
       mode: 0644
   
-  - name: Run Roles
+  - name: configure db
     include_role: 
       name : dbtier
     when: "'appdbs' in group_names"
-   
+  
+  - name: configure app
     include_role:
       name: apptier
     when: "'apps' in group_names"
 
+  - name: configure web
     include_role:
       name: webtier
     when: "'frontends' in group_names" 
