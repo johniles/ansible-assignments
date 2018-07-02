@@ -13,7 +13,3 @@
       src: haproxy.cfg.j2
       dest: /etc/haproxy/haproxy.cfg
     notify: haproxy_restart
-  - name: haproxy_restart
-    service:
-      name: haproxy
-      state: restarted
